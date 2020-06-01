@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block main %}
+
+<div class="content-section" style="flex:1">
+<form method="POST" action="#">
+
+        <fieldset class="form-group">
+            <legend class="border-bottom mb-4">Search: </legend>
+            <div class="md-form active-cyan active-cyan-2 mb-3" style="display:flex">
+              <input placeholder="RA" class="form-control" style="width:40%" type="text" name="RA"/>
+              </div>
+              <div class="md-form active-cyan active-cyan-2 mb-3" style="display:flex">
+              <input placeholder="Dec" class="form-control" style="width:40%" type="text" name="Dec"/>
+              <button type="submit" class="btn btn-dark" style="margin-left:5%">Search</button>
+              </div>
+
+</form>
+{% for key,value in id.iterrows() %}
+<div class="container" style="display:flex; margin-top:5%">
+    <table class="table table-striped" style="width:70%">
+      <thead>
+        <tr>
+          <th scope="col">Parameters</th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>ID</td>
+          <td>{{value.ID}}</td>
+        </tr>
+        <tr>
+          <td>RA</td>
+          <td>{{value.RA}}</td>
+        </tr>
+        <tr>
+          <td>Dec</td>
+          <td>{{value.Dec}}</td>
+        </tr>
+        <tr>
+          <td>PhotoFlag</td>
+          <td>{{value.PhotoFlag}}</td>
+        </tr>
+        <tr>
+          <td>FWHM</td>
+          <td>{{value.FWHM}}</td>
+        </tr>
+        <tr>
+          <td>r_auto</td>
+          <td>{{value.r_auto}}</td>
+        </tr>
+
+      </tbody>
+    </table>
+  <p> <img src="{{value.image}}" style="margin:30% auto auto 50%"> </p>
+  </div>
+    {% endfor %}
+  {% if auto != None %}
+  <div style="margin-top:7%;" class="row">
+    <p class="column"><img src="data:image/png;base64, {{ auto }}" width="420px"></p>
+    <p style="margin-left:3%" class="column"><img src="data:image/png;base64, {{ petro }}" width="420px"></p>
+    </div>
+  {% endif%}
+  {% endblock %}

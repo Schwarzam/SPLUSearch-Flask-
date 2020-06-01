@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link href="https://fonts.googleapis.com/css2?family=Balsamiq+Sans&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css')}}">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;500&family=Montserrat:wght@500&display=swap" rel="stylesheet">
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  <title>SPLUSearch</title>
+</head>
+<body style="background-image: linear-gradient(#f5f5ff, #ccccfc);">
+  <header style="background-image:url({{ url_for('static', filename='back.jpg') }})">
+    <div class="logo-container"><a style="display:flex" href="{{ url_for('index') }}">
+      <img src="{{ url_for('static', filename='s.jpg') }}" height="60hv"><p class="logo">S-PLUS</p></a>
+    </div>
+    <nav>
+    <ul class="nav-links">
+      <li><a class="nav-link" href="http://www.splus.iag.usp.br/survey/"> SPLUS website </a> </li>
+      <li><a class="nav-link" href="{{url_for('choose')}}"> Search Galaxies </a> </li>
+      <li> {% if current_user.is_authenticated %}
+        <a class="nav-link" href="{{url_for('logout')}}"> Logout </a>
+            {% else %}
+        <a class="nav-link" href="{{url_for('login')}}"> Login </a>
+            {% endif %}
+      </li>
+    </ul>
+  </nav>
+  </header>
+  {% with messages = get_flashed_messages(with_categories = true) %}
+    {% if messages %}
+      {% for category, messages in messages %}
+       <div class="alert alert-{{category}} alert-dismissible fade show" role="alert">
+        <strong>{{messages}}</strong>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+  {% block main %}
+  {% endblock %}
+</body>
+</html>

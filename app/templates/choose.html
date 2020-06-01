@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block main %}
+
+  <div class="content-section" style="flex:1">
+  <form method="POST" action="#">
+
+          <fieldset class="form-group">
+              <legend class="border-bottom mb-4">Search by (It is possible to search for more than one object at a time):</legend>
+              <a href="{{ url_for('galaxy') }}">
+              <button type="button" class="btn btn-primary btn-lg btn-block">S-PLUS ID </button>
+              </a>
+              <a href="{{ url_for('coords') }}">
+              <button type="button" class="btn btn-secondary btn-lg btn-block" style="margin-top:3%">RA and Dec (Note that it takes longer than searching by ID)</button>
+              </a>
+
+  </form>
+
+  <form method="POST" action="#" style="padding-top:50px"
+          <fieldset class="form-group">
+              <legend class="border-bottom mb-4">Search by (Only one object at a time, image and S-spectrum):</legend>
+              <a href="{{ url_for('galaxySpec') }}">
+              <button type="button" class="btn btn-primary btn-lg btn-block">S-PLUS ID </button>
+              </a>
+              <a href="{{ url_for('coordsSpec') }}">
+              <button type="button" class="btn btn-secondary btn-lg btn-block" style="margin-top:3%">RA and Dec (Note that it takes longer than searching by ID)</button>
+              </a>
+
+  </form>
+
+{% endblock %}

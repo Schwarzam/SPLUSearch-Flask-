@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block main %}
+
+  <div class="content-section" style="flex:1">
+  <form method="POST" action="#">
+
+          <fieldset class="form-group">
+              <legend class="border-bottom mb-4">Search: </legend>
+              <p>(if you want to search for more than one at once, separate the IDs using ' , ')</p>
+              <div class="md-form active-cyan active-cyan-2 mb-3" style="display:flex">
+                <input class="form-control" style="width:100%;" type="text" name="gal"/>
+                <button type="submit" class="btn btn-dark" style="margin-left:5%">Search</button>
+          </div>
+  </form>
+
+{% endblock %}

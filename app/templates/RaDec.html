@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block main %}
+
+  <div class="content-section" style="flex:1">
+  <form method="POST" action="#">
+
+          <fieldset class="form-group">
+              <legend class="border-bottom mb-4">Search: </legend>
+              <div class="md-form active-cyan active-cyan-2 mb-3" style="display:flex">
+                <input placeholder="RA" class="form-control" style="width:40%" type="text" name="RA"/>
+                </div>
+                <div class="md-form active-cyan active-cyan-2 mb-3" style="display:flex">
+                <input placeholder="Dec" class="form-control" style="width:40%" type="text" name="Dec"/>
+                <button type="submit" class="btn btn-dark" style="margin-left:5%">Search</button>
+                </div>
+
+  </form>
+{% endblock %}

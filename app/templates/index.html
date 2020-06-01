@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block main %}
+<main>
+  <h1 class="font">Welcome to SPLUS</h1>
+  <section>
+      <p class="ntext"> The Southern Photometric Local Universe Survey (S-PLUS) is imaging ∼9300 deg2 of the celestial sphere in 12 optical bands using a dedicated 0.8 m robotic telescope, the T80-South, at the Cerro Tololo Inter-american Observatory, Chile. The telescope is equipped with a 9.2k × 9.2k e2v detector with 10 {μ m} pixels, resulting in a field of view of 2 deg2 with a plate scale of 0.55 arcsec pixel-1. The survey consists of four main subfields, which include two non-contiguous fields at high Galactic latitudes (|b| > 30°, 8000 deg2) and two areas of the Galactic Disc and Bulge (for an additional 1300 deg2). S-PLUS uses the Javalambre 12-band magnitude system, which includes the 5 ugriz broad-band filters and 7 narrow-band filters centred on prominent stellar spectral features: the Balmer jump/[OII], Ca H + K, H δ, G band, Mg b triplet, H α, and the Ca triplet. S-PLUS delivers accurate photometric redshifts (δz/(1 + z) = 0.02 or better) for galaxies with r greater than 19.7 AB mag and z under 0.4, thus producing a 3D map of the local Universe over a volume of more than 1 (Gpc/h)^3. The final S-PLUS catalogue will also enable the study of star formation and stellar populations in and around the Milky Way and nearby galaxies, as well as searches for quasars, variable sources, and low-metallicity stars. In this paper we introduce the main characteristics of the survey, illustrated with science verification data highlighting the unique capabilities of S-PLUS. We also present the first public data release of ∼336 deg2 of the Stripe 82 area, in 12 bands, to a limiting magnitude of r = 21, available at <a href="http://datalab.noao.edu/splus">datalab.noao.edu/splus</a>.
+      </p>
+      <img style="margin:auto" src="{{url_for('static', filename='tenor.gif')}}" height="300px">
+  </section>
+  <div class="box">
+    <div><img class="image" src="{{ url_for('static', filename='T80.jpg')}}" height: 100%;></div>
+    <ul class="center">
+      <li>This website was made to help the S-PLUS community by providing easy display of  galaxy images from the Legacy survey <a href="http://www.legacysurvey.org">(www.legacysurvey.org)</a>. </li>
+      <li>This website was made to help the community by easy displaying galaxies information </li>
+      <li>Logging in gives you access to the searching tool </li>
+    </ul>
+    </div>
+</main>
+{%endblock%}
