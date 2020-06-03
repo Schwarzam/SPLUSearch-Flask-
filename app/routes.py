@@ -84,7 +84,8 @@ def coords():
         df1 = pd.DataFrame({'RA':ml})
         df2 = pd.DataFrame({'Dec':ml2})
         result = pd.concat([df2, df1], axis=1)
-        df = pd.DataFrame(columns = ['ID','RA','Dec','PhotoFlag','FWHM','r_auto', 'image'])
+        df = pd.DataFrame(columns = ['ID','RA','Dec','PhotoFlag','FWHM','uJAVA_auto', 'F378_auto', 'F395_auto', 'F410_auto', 'F430_auto', 'g_auto', 'F515_auto',
+                                          'r_auto', 'i_auto', 'F660_auto', 'F861_auto', 'z_auto', 'FieldS', 'image'])
         for index, row in result.iterrows():
             Galaxy = TableRef.query.filter()
             ra2 = np.array([])
@@ -92,11 +93,13 @@ def coords():
             for x in Galaxy:
               ra2 = np.append(ra2, float(x.RA))
               dec2 = np.append(dec2, float(x.DEC))
+
             c = SkyCoord(ra=float(row.RA)*u.degree, dec=float(row.Dec)*u.degree)
             catalog = SkyCoord(ra=ra2*u.degree, dec=dec2*u.degree)
             idx, d2d, d3d = c.match_to_catalog_sky(catalog)
             Field = TableRef.query.filter_by(id = f'{idx+1}').first()
             Field = Field.NAME
+            Status = Field.STATUS
             Field = ClassFactory(Field)
             Galaxy = Field.query.filter()
             ra2 = np.array([])
@@ -109,8 +112,13 @@ def coords():
             idx, d2d, d3d = c.match_to_catalog_sky(catalog)
             Galaxy = Galaxy[idx]
             image = f"http://legacysurvey.org/viewer/cutout.jpg?ra={Galaxy.RA}&dec={Galaxy.Dec}&layer=dr8&pixscale=0.50"
-            data = {'ID':[Galaxy.ID],'RA':[Galaxy.RA],'Dec':[Galaxy.Dec],'PhotoFlag':[Galaxy.PhotoFlag],'FWHM':[Galaxy.FWHM],'r_auto':[Galaxy.r_auto], 'image':[image]}
-            df1 = pd.DataFrame(data, columns=['ID','RA','Dec','PhotoFlag','FWHM','r_auto', 'image'])
+            data = {'ID':[Galaxy.ID],'RA':[Galaxy.RA],'Dec':[Galaxy.Dec],'PhotoFlag':[Galaxy.PhotoFlag],'FWHM':[Galaxy.FWHM],
+                    'uJAVA_auto':[Galaxy.uJAVA_auto], 'F378_auto':[Galaxy.F378_auto], 'F395_auto':[Galaxy.F395_auto],'F410_auto':[Galaxy.F410_auto], 'F430_auto':[Galaxy.F430_auto],
+                    'g_auto':[Galaxy.g_auto],'F515_auto':[Galaxy.F515_auto] , 'r_auto':[Galaxy.r_auto], 'F660_auto':[Galaxy.F660_auto],
+                    'i_auto':[Galaxy.i_auto], 'F861_auto':[Galaxy.F861_auto], 'z_auto':[Galaxy.z_auto], 'FieldS': [Status], 'image':[image]}
+
+            df1 = pd.DataFrame(data, columns=['ID','RA','Dec','PhotoFlag','FWHM','uJAVA_auto', 'F378_auto', 'F395_auto', 'F410_auto', 'F430_auto', 'g_auto', 'F515_auto',
+                                              'r_auto', 'i_auto', 'F660_auto', 'F861_auto', 'z_auto', 'FieldS', 'image'])
             df = df.append(df1)
         return render_template('resultRA.html', id=df, auto = None)
     else:
@@ -127,16 +135,23 @@ def galaxy():
             mylist = id.split(', ')
         else:
             mylist = id.split(',')
-        df = pd.DataFrame(columns = ['ID','RA','Dec','PhotoFlag','FWHM','r_auto', 'image'])
+        df = pd.DataFrame(columns = ['ID','RA','Dec','PhotoFlag','FWHM','uJAVA_auto', 'F378_auto', 'F395_auto', 'F410_auto', 'F430_auto', 'g_auto', 'F515_auto',
+                                          'r_auto', 'i_auto', 'F660_auto', 'F861_auto', 'z_auto', 'FieldS', 'image'])
         for x in mylist:
             FIELD = x.split(sep='.')
             FIELD = FIELD[1]
             if '-' in FIELD:
                 FIELD = FIELD.replace('-','_')
+            Field = TableRef.query.filter_by(NAME = f'{FIELD}').first()
+            Status = Field.STATUS
             Galaxy = ClassFactory(FIELD).query.filter_by(ID = f'{x}').first_or_404()
             image = f"http://legacysurvey.org/viewer/cutout.jpg?ra={Galaxy.RA}&dec={Galaxy.Dec}&layer=dr8&pixscale=0.50"
-            data = {'ID':[Galaxy.ID],'RA':[Galaxy.RA],'Dec':[Galaxy.Dec],'PhotoFlag':[Galaxy.PhotoFlag],'FWHM':[Galaxy.FWHM],'r_auto':[Galaxy.r_auto], 'image':[image]}
-            df1 = pd.DataFrame(data, columns=['ID','RA','Dec','PhotoFlag','FWHM','r_auto', 'image'])
+            data = {'ID':[Galaxy.ID],'RA':[Galaxy.RA],'Dec':[Galaxy.Dec],'PhotoFlag':[Galaxy.PhotoFlag],'FWHM':[Galaxy.FWHM],
+                    'uJAVA_auto':[Galaxy.uJAVA_auto], 'F378_auto':[Galaxy.F378_auto], 'F395_auto':[Galaxy.F395_auto],'F410_auto':[Galaxy.F410_auto], 'F430_auto':[Galaxy.F430_auto],
+                    'g_auto':[Galaxy.g_auto],'F515_auto':[Galaxy.F515_auto] , 'r_auto':[Galaxy.r_auto], 'F660_auto':[Galaxy.F660_auto],
+                    'i_auto':[Galaxy.i_auto], 'F861_auto':[Galaxy.F861_auto], 'z_auto':[Galaxy.z_auto], 'FieldS': [Status], 'image':[image]}
+            df1 = pd.DataFrame(data, columns=['ID','RA','Dec','PhotoFlag','FWHM','uJAVA_auto', 'F378_auto', 'F395_auto', 'F410_auto', 'F430_auto', 'g_auto', 'F515_auto',
+                                              'r_auto', 'i_auto', 'F660_auto', 'F861_auto', 'z_auto', 'FieldS', 'image'])
             df = df.append(df1)
         return render_template('result.html', id=df, auto = None)
     else:
@@ -158,6 +173,8 @@ def galaxySpec():
             FIELD = FIELD[1]
         if '-' in FIELD:
             FIELD = FIELD.replace('-','_')
+        Field = TableRef.query.filter_by(NAME = f'{FIELD}').first()
+        Status = Field.STATUS
         Galaxy = ClassFactory(FIELD).query.filter_by(ID = f'{x}').first_or_404()
         image = f"http://legacysurvey.org/viewer/cutout.jpg?ra={Galaxy.RA}&dec={Galaxy.Dec}&layer=dr8&pixscale=0.50"
         data = {'ID':[Galaxy.ID],'RA':[Galaxy.RA],'Dec':[Galaxy.Dec],'PhotoFlag':[Galaxy.PhotoFlag],'FWHM':[Galaxy.FWHM],'r_auto':[Galaxy.r_auto], 'image':[image]}
@@ -173,8 +190,12 @@ def galaxySpec():
         petro_png = base64.b64encode(petro.getvalue())
         result2 = str(petro_png)[2:-1]
         image = f"http://legacysurvey.org/viewer/cutout.jpg?ra={Galaxy.RA}&dec={Galaxy.Dec}&layer=dr8&pixscale=0.50"
-        data = {'ID':[Galaxy.ID],'RA':[Galaxy.RA],'Dec':[Galaxy.Dec],'PhotoFlag':[Galaxy.PhotoFlag],'FWHM':[Galaxy.FWHM],'r_auto':[Galaxy.r_auto], 'image':[image]}
-        df1 = pd.DataFrame(data, columns=['ID','RA','Dec','PhotoFlag','FWHM','r_auto', 'image'])
+        data = {'ID':[Galaxy.ID],'RA':[Galaxy.RA],'Dec':[Galaxy.Dec],'PhotoFlag':[Galaxy.PhotoFlag],'FWHM':[Galaxy.FWHM],
+                'uJAVA_auto':[Galaxy.uJAVA_auto], 'F378_auto':[Galaxy.F378_auto], 'F395_auto':[Galaxy.F395_auto],'F410_auto':[Galaxy.F410_auto], 'F430_auto':[Galaxy.F430_auto],
+                'g_auto':[Galaxy.g_auto],'F515_auto':[Galaxy.F515_auto] , 'r_auto':[Galaxy.r_auto], 'F660_auto':[Galaxy.F660_auto],
+                'i_auto':[Galaxy.i_auto], 'F861_auto':[Galaxy.F861_auto], 'z_auto':[Galaxy.z_auto], 'FieldS': [Status], 'image':[image]}
+        df1 = pd.DataFrame(data, columns=['ID','RA','Dec','PhotoFlag','FWHM','uJAVA_auto', 'F378_auto', 'F395_auto', 'F410_auto', 'F430_auto', 'g_auto', 'F515_auto',
+                                          'r_auto', 'i_auto', 'F660_auto', 'F861_auto', 'z_auto', 'FieldS', 'image'])
         return render_template('result.html', id=df1, auto = result, petro = result2)
     else:
         return render_template('galaxy.html', id=None)
@@ -200,6 +221,7 @@ def coordsSpec():
         idx, d2d, d3d = c.match_to_catalog_sky(catalog)
 
         Field = TableRef.query.filter_by(id = f'{idx+1}').first()
+        Status = Field.STATUS
         Field = Field.NAME
         Field = ClassFactory(Field)
         Galaxy = Field.query.filter()
@@ -218,8 +240,12 @@ def coordsSpec():
 
 
         image = f"http://legacysurvey.org/viewer/cutout.jpg?ra={Galaxy.RA}&dec={Galaxy.Dec}&layer=dr8&pixscale=0.50"
-        data = {'ID':[Galaxy.ID],'RA':[Galaxy.RA],'Dec':[Galaxy.Dec],'PhotoFlag':[Galaxy.PhotoFlag],'FWHM':[Galaxy.FWHM],'r_auto':[Galaxy.r_auto], 'image':[image]}
-        df1 = pd.DataFrame(data, columns=['ID','RA','Dec','PhotoFlag','FWHM','r_auto', 'image'])
+        data = {'ID':[Galaxy.ID],'RA':[Galaxy.RA],'Dec':[Galaxy.Dec],'PhotoFlag':[Galaxy.PhotoFlag],'FWHM':[Galaxy.FWHM],
+                'uJAVA_auto':[Galaxy.uJAVA_auto], 'F378_auto':[Galaxy.F378_auto], 'F395_auto':[Galaxy.F395_auto],'F410_auto':[Galaxy.F410_auto], 'F430_auto':[Galaxy.F430_auto],
+                'g_auto':[Galaxy.g_auto],'F515_auto':[Galaxy.F515_auto] , 'r_auto':[Galaxy.r_auto], 'F660_auto':[Galaxy.F660_auto],
+                'i_auto':[Galaxy.i_auto], 'F861_auto':[Galaxy.F861_auto], 'z_auto':[Galaxy.z_auto], 'FieldS': [Status], 'image':[image]}
+        df1 = pd.DataFrame(data, columns=['ID','RA','Dec','PhotoFlag','FWHM','uJAVA_auto', 'F378_auto', 'F395_auto', 'F410_auto', 'F430_auto', 'g_auto', 'F515_auto',
+                                          'r_auto', 'i_auto', 'F660_auto', 'F861_auto', 'z_auto', 'FieldS', 'image'])
         plot = Graph(Galaxy)
         figfile = BytesIO()
         fig = plot.autoplot().savefig(figfile, format='png')

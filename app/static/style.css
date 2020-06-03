@@ -3,6 +3,13 @@ Base
       margin:0px;
       padding: 0px;
       box-sizing: border-box;
+      background-color: linear-gradient(#f5f5ff, #ccccfc);
+      background-repeat:no-repeat;
+      background-position:center;
+      -webkit-background-size: cover;
+      -moz-background-size: cover;
+      -o-background-size: cover;
+      background-size: cover;
     }
 
     .credit{
@@ -97,13 +104,11 @@ Base
   align-items: center;
 }
 .box {
-  display: flex;
+
   align-items: center;
   justify-content: center;
-  width: 90%;
   margin: auto;
-  padding-top: 3%;
-  padding-bottom: 5%;
+
 }
 .alert{
   width: 90%;
@@ -119,4 +124,19 @@ Base
   justify-content: center;
   width: 90%;
   margin: auto;
+}
+
+.thead{
+  font-family: 'Montserrat', sans-serif;
+  margin:auto;
+  text-align: center;
+  border: 1px solid black;
+
+}
+
+.tbody{
+  justify-content: center;
+  margin: auto;
+  text-align: center;
+  width: 5%;
 }

@@ -7,11 +7,8 @@ from sqlalchemy.orm import scoped_session, sessionmaker
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
 
-
 app = Flask(__name__)
 
-app.config['SECRET_KEY']= '?????'
-app.config["SQLALCHEMY_DATABASE_URI"] = ('postgresql://????')
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
 login_manager = LoginManager(app)

@@ -138,6 +138,7 @@ class Graph:
         mag_auto_err  = self.mag_auto_err
         mag_petro_err  = self.mag_petro_err
 
+        mag_auto = [np.nan if x == 99.0 else x for x in mag_auto]
 
         #plotfile = "photos-pectrum_splus_"+str(data.FIELD.split("-")[-1])+"-"+str(data.ID.split(".0")[-1].split(".g")[0])+"_auto.jpg"
         fig = plt.figure(figsize=(15.5, 9.5))
@@ -149,12 +150,13 @@ class Graph:
         #ax1.set_xlabel(r'$\lambda$')
         ax.set_xlabel(r'Wavelength $[\mathrm{\AA]}$', fontsize = 44)
         ax.set_ylabel(r'Magnitude [AB]', fontsize = 44)
-        ax.plot(wl, mag_auto, '-k', alpha=0.2)#, label='Auto')
+        ax.plot(wl, mag_auto, '-k', alpha=0.2)
+        #, label='Auto')
 
         ax.scatter(wl, mag_auto, c=color, marker='s', s=600, zorder=10)
         ax.errorbar(wl, mag_auto, mag_auto_err, marker='s', fmt='.', elinewidth=5.9, markeredgewidth=5.2,  capsize=20)
-            # plt.text(0.06, 0.1, "Fr 2-21",
-            #          transform=ax.transAxes, fontsize=48,  fontdict=font)
+        #     # plt.text(0.06, 0.1, "Fr 2-21",
+        #     #          transform=ax.transAxes, fontsize=48,  fontdict=font)
             #plt.subplots_adjust(bottom=0.19)
         plt.legend(fontsize=16.0)
         plt.title('auto', fontsize=40)
@@ -192,7 +194,7 @@ class Graph:
         mag_auto_err  = self.mag_auto_err
         mag_petro_err  = self.mag_petro_err
 
-
+        mag_petro = [np.nan if x == 99.0 else x for x in mag_petro]
         #plotfile = "photos-pectrum_splus_"+str(data.FIELD.split("-")[-1])+"-"+str(data.ID.split(".0")[-1].split(".g")[0])+"_petro.jpg"
         fig = plt.figure(figsize=(15.5, 9.5))
         ax1 = fig.add_subplot(1,1,1)
