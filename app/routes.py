@@ -87,30 +87,22 @@ def coords():
         df = pd.DataFrame(columns = ['ID','RA','Dec','PhotoFlag','FWHM','uJAVA_auto', 'F378_auto', 'F395_auto', 'F410_auto', 'F430_auto', 'g_auto', 'F515_auto',
                                           'r_auto', 'i_auto', 'F660_auto', 'F861_auto', 'z_auto', 'FieldS', 'image'])
         for index, row in result.iterrows():
-            Galaxy = TableRef.query.filter()
-            ra2 = np.array([])
-            dec2 = np.array([])
-            for x in Galaxy:
-              ra2 = np.append(ra2, float(x.RA))
-              dec2 = np.append(dec2, float(x.DEC))
-
-            c = SkyCoord(ra=float(row.RA)*u.degree, dec=float(row.Dec)*u.degree)
-            catalog = SkyCoord(ra=ra2*u.degree, dec=dec2*u.degree)
-            idx, d2d, d3d = c.match_to_catalog_sky(catalog)
-            Field = TableRef.query.filter_by(id = f'{idx+1}').first()
-            Field = Field.NAME
-            Status = Field.STATUS
-            Field = ClassFactory(Field)
-            Galaxy = Field.query.filter()
-            ra2 = np.array([])
-            dec2 = np.array([])
-            for x in Galaxy:
-                ra2 = np.append(ra2, float(x.RA))
-                dec2 = np.append(dec2, float(x.Dec))
-            c = SkyCoord(ra=float(row.RA)*u.degree, dec=float(row.Dec)*u.degree)
-            catalog = SkyCoord(ra=ra2*u.degree, dec=dec2*u.degree)
-            idx, d2d, d3d = c.match_to_catalog_sky(catalog)
-            Galaxy = Galaxy[idx]
+            
+            #
+            #
+            #
+            #
+            #
+            #
+            #
+            #
+            #
+            #
+            #
+            #
+            #
+            
+            
             image = f"http://legacysurvey.org/viewer/cutout.jpg?ra={Galaxy.RA}&dec={Galaxy.Dec}&layer=dr8&pixscale=0.50"
             data = {'ID':[Galaxy.ID],'RA':[Galaxy.RA],'Dec':[Galaxy.Dec],'PhotoFlag':[Galaxy.PhotoFlag],'FWHM':[Galaxy.FWHM],
                     'uJAVA_auto':[Galaxy.uJAVA_auto], 'F378_auto':[Galaxy.F378_auto], 'F395_auto':[Galaxy.F395_auto],'F410_auto':[Galaxy.F410_auto], 'F430_auto':[Galaxy.F430_auto],
@@ -138,13 +130,20 @@ def galaxy():
         df = pd.DataFrame(columns = ['ID','RA','Dec','PhotoFlag','FWHM','uJAVA_auto', 'F378_auto', 'F395_auto', 'F410_auto', 'F430_auto', 'g_auto', 'F515_auto',
                                           'r_auto', 'i_auto', 'F660_auto', 'F861_auto', 'z_auto', 'FieldS', 'image'])
         for x in mylist:
-            FIELD = x.split(sep='.')
-            FIELD = FIELD[1]
-            if '-' in FIELD:
-                FIELD = FIELD.replace('-','_')
-            Field = TableRef.query.filter_by(NAME = f'{FIELD}').first()
-            Status = Field.STATUS
-            Galaxy = ClassFactory(FIELD).query.filter_by(ID = f'{x}').first_or_404()
+            #
+            #
+            #
+            #
+            #
+            #
+            #
+            #
+            #
+            #
+            #
+            #
+            #
+    
             image = f"http://legacysurvey.org/viewer/cutout.jpg?ra={Galaxy.RA}&dec={Galaxy.Dec}&layer=dr8&pixscale=0.50"
             data = {'ID':[Galaxy.ID],'RA':[Galaxy.RA],'Dec':[Galaxy.Dec],'PhotoFlag':[Galaxy.PhotoFlag],'FWHM':[Galaxy.FWHM],
                     'uJAVA_auto':[Galaxy.uJAVA_auto], 'F378_auto':[Galaxy.F378_auto], 'F395_auto':[Galaxy.F395_auto],'F410_auto':[Galaxy.F410_auto], 'F430_auto':[Galaxy.F430_auto],
@@ -162,20 +161,19 @@ def galaxy():
 def galaxySpec():
     if request.method == "POST":
         id = request.form.get("gal")
-        if ' ' or '  ' in id:
-            id = id.replace(' ', '')
-        if ', ' in id:
-            mylist = id.split(', ')
-        else:
-            mylist = id.split(',')
-        for x in mylist:
-            FIELD = x.split(sep='.')
-            FIELD = FIELD[1]
-        if '-' in FIELD:
-            FIELD = FIELD.replace('-','_')
-        Field = TableRef.query.filter_by(NAME = f'{FIELD}').first()
-        Status = Field.STATUS
-        Galaxy = ClassFactory(FIELD).query.filter_by(ID = f'{x}').first_or_404()
+        #
+        #
+        #
+        #
+        #
+        #
+        #
+        #
+        #
+        #
+        #
+        #
+        #
         image = f"http://legacysurvey.org/viewer/cutout.jpg?ra={Galaxy.RA}&dec={Galaxy.Dec}&layer=dr8&pixscale=0.50"
         data = {'ID':[Galaxy.ID],'RA':[Galaxy.RA],'Dec':[Galaxy.Dec],'PhotoFlag':[Galaxy.PhotoFlag],'FWHM':[Galaxy.FWHM],'r_auto':[Galaxy.r_auto], 'image':[image]}
         plot = Graph(Galaxy)
@@ -210,33 +208,15 @@ def coordsSpec():
         dec = request.form.get("Dec")
         Galaxy = TableRef.query.filter()
 
-        ra2 = np.array([])
-        dec2 = np.array([])
-        for x in Galaxy:
-             ra2 = np.append(ra2, float(x.RA))
-             dec2 = np.append(dec2, float(x.DEC))
-
-        c = SkyCoord(ra=float(ra)*u.degree, dec=float(dec)*u.degree)
-        catalog = SkyCoord(ra=ra2*u.degree, dec=dec2*u.degree)
-        idx, d2d, d3d = c.match_to_catalog_sky(catalog)
-
-        Field = TableRef.query.filter_by(id = f'{idx+1}').first()
-        Status = Field.STATUS
-        Field = Field.NAME
-        Field = ClassFactory(Field)
-        Galaxy = Field.query.filter()
-
-        ra2 = np.array([])
-        dec2 = np.array([])
-        for x in Galaxy:
-            ra2 = np.append(ra2, float(x.RA))
-            dec2 = np.append(dec2, float(x.Dec))
-
-        c = SkyCoord(ra=float(ra)*u.degree, dec=float(dec)*u.degree)
-        catalog = SkyCoord(ra=ra2*u.degree, dec=dec2*u.degree)
-        idx, d2d, d3d = c.match_to_catalog_sky(catalog)
-
-        Galaxy = Galaxy[idx]
+       #
+    #
+    #
+    #
+    #
+    #
+    #
+    #   
+        #
 
 
         image = f"http://legacysurvey.org/viewer/cutout.jpg?ra={Galaxy.RA}&dec={Galaxy.Dec}&layer=dr8&pixscale=0.50"
